@@ -27,6 +27,7 @@ mkdir -p ${DIR}/.vim/tmp
 mkdir -p ${DIR}/.vim/backup
 mkdir -p ${DIR}/.vim/undo
 
+echo "${bold}Setting up Plugins${normal}"
 REPOS=$(cat plugins)
 
 # Make sure we've got the bundle directory
