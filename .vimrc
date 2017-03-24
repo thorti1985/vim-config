@@ -1,11 +1,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Owner/Maintainer: 
+" Owner/Maintainer:
 "	Thorsten Winkler
 "	thorsten.winkler85@gmail.com
 "
-" Version: 
+" Version:
 " 	2017-03-24 - First Edition
-"      
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Load pathogen which is used for easy plugin handling
@@ -24,7 +24,7 @@
         set undodir=~/.vim/undo//
     endif
 
-" Don't wrap lines at all 
+" Don't wrap lines at all
     "set nowrap
 
 " Turn on line numbers
@@ -72,3 +72,14 @@
 " Switch between paste and nopaste mode so that no autoindent is done during
 " copy/paste
 set pastetoggle=<F3>
+
+" Recommended settings for "syntastic"
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_sh_checkers = ['Bashate','checkbashisms','sh','ShellCheck']
