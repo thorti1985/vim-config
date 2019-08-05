@@ -1,58 +1,25 @@
 #!/bin/bash
-# Script-Name: setup.sh
-# Owner: Thorsten Winkler
-# Date: 24.03.2017
-# Description: vim Setup
-# Parameters: 
 
+# https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
+USER_HOME_DIR=~
+CURRENT_DIR_OF_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+VIM_DIR=.vim
+VIM_DIR_GITHUB=$CURRENT_DIR_OF_SCRIPT/$VIM_DIR
+VIM_DIR_USER=$USER_HOME_DIR/$VIM_DIR
+VIM_DIR_FOLDERS="autoload backup plugged tmp undo"
+VIMRC=.vimrc
+VIMRC_GITHUB=$CURRENT_DIR_OF_SCRIPT/$VIMRC
+VIMRC_USER=$USER_HOME_DIR/$VIMRC
 
-# Set the directory the script is stored in to make the script callable from anywhere
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# Defines for better outputs
-bold=`tput bold`
-normal=`tput sgr0`
-
-if [ -e ${DIR}/.installed ]; then
-    echo "vim-config already done"
-    exit 0
-fi
-
-echo "${bold}Setting up Symlinks...${normal}"
-ln -sf -t ~/ ${DIR}/.vim
-ln -sf ${DIR}/.vimrc ~/.vimrc
-
-echo "${bold}Creating tmp, backup and undo directories...${normal}"
-mkdir -p ${DIR}/.vim/tmp
-mkdir -p ${DIR}/.vim/backup
-mkdir -p ${DIR}/.vim/undo
-
-echo "${bold}Setting up Plugins${normal}"
-REPOS=$(cat plugins)
-
-# Make sure we've got the bundle directory
-mkdir -p ${DIR}/.vim/bundle
-cd ${DIR}/.vim/bundle/
-INSTALLED_PLUGINS=$(ls -A)
-for repo in $REPOS; do
-    # Let's check if we've got the plugin installed already
-    # (even though it shouldn't be the case since we're doing a fresh install - so..yea)
-    found=0
-    for plugin in $INSTALLED_PLUGINS; do
-        if [[ $repo =~ /${plugin}.git ]]; then
-            found=1
-            break
-        fi
-    done
-
-    if [ $found = 1 ]; then
-        continue
-    fi
-
-    # Clone the repo of the plugin if it isn't installed yet
-    git clone $repo
+for DIR in $VIM_DIR_FOLDERS
+do
+    mkdir -p $VIM_DIR/${DIR}
 done
 
-cd - > /dev/null 2>&1
-touch .installed
-echo "${bold}Done.${normal}"
+curl -fLo $VIM_DIR_GITHUB/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+git clone https://github.com/morhetz/gruvbox $VIM_DIR_GITHUB/plugged/gruvbox
+ln -s $VIM_DIR_GITHUB $VIM_DIR_USER
+ln -s $VIMRC_GITHUB $VIMRC_USER
+vim +'PlugInstall' +'qa'
