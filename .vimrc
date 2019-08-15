@@ -156,3 +156,6 @@ let g:NERDTreeIndicatorMapCustom = {
 "
 "
 "set mouse+=a
+map <F9> :make debug<CR><CR><CR>
+map <F10> :make clean<CR><CR><CR>
+map <F11> :make all<CR><CR><CR>
