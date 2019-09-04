@@ -17,6 +17,9 @@ do
     mkdir -p $VIM_DIR/${DIR}
 done
 
+# Copy individual filetype plugin to .vim/ftplugin
+cp -r ftplugin .vim
+
 # Download/Install "vim-plug" as plugin manager
 curl -fLo $VIM_DIR_GITHUB/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
