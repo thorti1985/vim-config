@@ -39,6 +39,7 @@ set t_Co=256
 " Turn on syntax highlighting and set theme
 " >>> Plug 'https://github.com/morhetz/gruvbox' <<<
 colorscheme gruvbox
+set bg=dark
 let g:gruvbox_contrast = "hard"
 
 " Highlight margin
